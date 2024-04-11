@@ -1,3 +1,5 @@
+import sys
+
 class Poll:
      answer = {
         "breed": '',
@@ -7,19 +9,24 @@ class Poll:
 
      def __init__(self):
          self.ask()
-         print("Это {} по кличке {}. Возраст: {}".format(self.answer["breed"], self.answer["name"], self.answer["age"]))
-         print("Спасибо за прохождение опроса! Доствидания!")
+         print("\n\033[32mЭто {} по кличке {}. Возраст: {}".format(self.answer["breed"], self.answer["name"], self.answer["age"]))
+         print("\033[32mСпасибо за прохождение опроса! Доствидания!\n")
 
      def ask(self):
-      breed = input("\033[37mКакой вид и порода у вашего питомца? (Нажмите enter для отказа от прохождения отпроса)\n Ваш ответ: ")
-      if breed:
-         self.answer["breed"] = breed
-         name = input("\033[37mКакая кличка у вашего питомца? (Нажмите enter для отказа от прохождения отпроса)\n Ваш ответ: ")
-      if name:
-         self.answer["name"] = name
-         age = input("\033[37mКакой возраст у вашего питомца? (Нажмите enter для отказа от прохождения отпроса)\n Ваш ответ: ")
-      if age:
-         self.answer["age"] = age
-      else:
-         self.answer = "Вы отказались пройти отпрос. Досвидания!"
+      try:
+        breed = input("\033[35mКакой вид и порода у вашего питомца? \033[37m(Нажмите enter для отказа от прохождения отпроса)\n Ваш ответ: ")
+        if breed:
+            self.answer["breed"] = breed
+            name = input("\033[35mКакая кличка у вашего питомца? \033[37m(Нажмите enter для отказа от прохождения отпроса)\n Ваш ответ: ")
+        if name:
+            self.answer["name"] = name
+            age = input("\033[35mКакой возраст у вашего питомца? \033[37m(Нажмите enter для отказа от прохождения отпроса)\n Ваш ответ: ")
+        if age:
+            self.answer["age"] = age
+      except KeyboardInterrupt:
+         print("\n\033[33mВы отказались пройти отпрос. Досвидания!\n")
+         sys.exit()
+      except:
+         print("\n\033[33mВы отказались пройти отпрос. Досвидания!\n")
+         sys.exit()
 
