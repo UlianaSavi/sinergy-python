@@ -30,3 +30,4 @@ class Poll:
          print("\n\033[33mВы отказались пройти отпрос. Досвидания!\n")
          sys.exit()
 
+newPoll = Poll()
