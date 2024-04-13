@@ -1,1 +1,0 @@
-print("Progect is started!")
