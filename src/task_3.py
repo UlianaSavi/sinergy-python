@@ -25,7 +25,8 @@ class countDivisor:
                 raise ValueError("ValueError")
             for i in range(a, b, 2):
                 evenNum = i % 2 + i
-                self.answer.append(str(evenNum))
+                if evenNum != b:
+                    self.answer.append(str(evenNum))
         except KeyboardInterrupt:
             print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
             sys.exit()
