@@ -21,17 +21,13 @@ class countZeros:
                 if int(itemNum) == 0:
                     self.answer.append(int(itemNum))
         except KeyboardInterrupt:
-            print(
-                "\n\033[33mВы отказались пройти оценку возможностей инвестирования. Досвидания!\n"
-            )
+            print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
             sys.exit()
         except ValueError:
             print("\n\033[33mВы ввели неверное значение, попробуйте снова!\n")
             self.ask()
         except:
-            print(
-                "\n\033[33mВы отказались пройти оценку возможностей инвестирования. Досвидания!\n"
-            )
+            print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
             sys.exit()
 
 
