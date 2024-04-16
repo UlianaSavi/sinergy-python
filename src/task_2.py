@@ -1,6 +1,7 @@
 # шаблон для скрипта
 import sys
 
+
 class ClassName:
     answer = ""
     inputNum = 0
