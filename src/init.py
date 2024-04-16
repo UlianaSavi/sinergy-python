@@ -1,6 +1,7 @@
 # шаблон для скрипта
 import sys
 
+
 class ClassName:
     answer = ""
     inputNum = 0
@@ -17,10 +18,10 @@ class ClassName:
             inputRes = input("\033[35mВопрос ")
             print(inputRes)
         except KeyboardInterrupt:
-            print("\n\033[33mВы отказались пройти тест. Досвидания!\n")
+            print("\n\033[33mВы вышлииз скрипта. Досвидания!\n")
             sys.exit()
         except:
-            print("\n\033[33mВы отказались пройти тест. Досвидания!\n")
+            print("\n\033[33mВы вышлииз скрипта. Досвидания!\n")
             sys.exit()
 
 
