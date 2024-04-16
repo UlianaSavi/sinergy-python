@@ -9,7 +9,7 @@ class countDivisor:
         self.ask()
         print(
             "\n\033[32mВсе четные числа на заданном отрезке: {}".format(
-                ", ".join(self.answer)
+                " ".join(self.answer)
             ),
         )
         print("\033[32mСпасибо за использование скрипта! Досвидания!\n")
