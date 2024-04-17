@@ -1,10 +1,9 @@
-# шаблон для скрипта
 import sys
+import math
 
 
 class getBoads:
-    answer = ""
-    inputNum = 0
+    answer = 0
 
     def __init__(self):
         print("\033[32mПривет!\n")
@@ -15,8 +14,28 @@ class getBoads:
 
     def ask(self):
         try:
-            inputRes = input("\033[35mВопрос ")
-            print(inputRes)
+            maxMass = int(
+                input(
+                    "\033[35mВведите число m (1 ≤ m ≤ 10e6) - максимальная масса, которую может выдержать одна лодка: "
+                )
+            )
+            peopleNum = int(
+                input("\033[35mВведите число n (1 ≤ n ≤ 100) - количество рыбаков: ")
+            )
+            weights = []
+            i = 0
+            while i < peopleNum:
+                i += 1
+                weightItem = int(input("\033[35mВес {} путешественника: ".format(i)))
+                if weightItem <= 0 or weightItem > maxMass:
+                    raise ValueError
+                weights.append(weightItem)
+            self.answer = math.ceil(sum(weights) / maxMass)
+        except ValueError:
+            print(
+                "\n\033[33mВы ввели неверные значения (1 ≤ вес ≤ m), попробуйте снова!\n"
+            )
+            self.ask()
         except KeyboardInterrupt:
             print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
             sys.exit()
