@@ -4,7 +4,6 @@ import sys
 
 class ClassName:
     answer = ""
-    inputNum = 0
 
     def __init__(self):
         print("\033[32mПривет!\n")
@@ -16,12 +15,12 @@ class ClassName:
     def ask(self):
         try:
             inputRes = input("\033[35mВопрос ")
-            print(inputRes)
+            self.answer = inputRes
         except KeyboardInterrupt:
-            print("\n\033[33mВы вышлииз скрипта. Досвидания!\n")
+            print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
             sys.exit()
         except:
-            print("\n\033[33mВы вышлииз скрипта. Досвидания!\n")
+            print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
             sys.exit()
 
 
