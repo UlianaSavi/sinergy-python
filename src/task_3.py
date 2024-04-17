@@ -2,7 +2,7 @@
 import sys
 
 
-class ClassName:
+class getBoads:
     answer = ""
     inputNum = 0
 
@@ -18,11 +18,11 @@ class ClassName:
             inputRes = input("\033[35mВопрос ")
             print(inputRes)
         except KeyboardInterrupt:
-            print("\n\033[33mВы вышлииз скрипта. Досвидания!\n")
+            print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
             sys.exit()
         except:
-            print("\n\033[33mВы вышлииз скрипта. Досвидания!\n")
+            print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
             sys.exit()
 
 
-newEx = ClassName()
+newEx = getBoads()

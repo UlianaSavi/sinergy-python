@@ -40,10 +40,10 @@ class ReverseArray:
             self.arr = []
             self.ask()
         except KeyboardInterrupt:
-            print("\n\033[33mВы вышлииз скрипта. Досвидания!\n")
+            print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
             sys.exit()
         except:
-            print("\n\033[33mВы вышлииз скрипта. Досвидания!\n")
+            print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
             sys.exit()
 
     def moveToFirst(self):
