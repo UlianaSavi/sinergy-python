@@ -1,7 +1,7 @@
 import sys
 
 
-class ClassName:
+class FindUniqueNums:
     answer = 0
     maxNumbers = 100000
 
@@ -58,4 +58,4 @@ class ClassName:
             sys.exit()
 
 
-newEx = ClassName()
+newEx = FindUniqueNums()
