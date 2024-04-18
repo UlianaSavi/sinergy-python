@@ -16,6 +16,9 @@ class ClassName:
         try:
             inputRes = input("\033[35mВопрос ")
             self.answer = inputRes
+        except ValueError:
+            print("\n\033[33mВы ввели неверное значение, попробуйте снова!\n")
+            self.ask()
         except KeyboardInterrupt:
             print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
             sys.exit()
