@@ -2,21 +2,20 @@ import sys
 
 
 class Poll:
-    answer = {"breed": "", "name": "", "age": "", "ownerName": ""}
     pets = {}
 
     def __init__(self):
         self.ask()
         keys = list(self.pets.keys())
-        pet = self.pets[keys[0]]  # используется чисто в рамках требования по тз задания
-        print("keys", keys)
-        print("pet", pet)
+        pet = self.pets[
+            keys[0]
+        ]  # используется чисто в рамках требования по тз задания. Получает единственного питомца из списка pets
         print(
             "Это {} по кличке {}. Возраст питомца: {}. Имя владельца: {}".format(
                 pet["breed"], keys[0], self.getAgeStr(pet["age"]), pet["ownerName"]
             )
         )
-        print("\033[32mСпасибо за прохождение опроса! Доствидания!\n")
+        print("\033[32mСпасибо за прохождение опроса! Досвидания!\n")
 
     def ask(self):
         try:
