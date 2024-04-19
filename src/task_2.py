@@ -1,8 +1,7 @@
-# шаблон для скрипта
 import sys
 
 
-class ClassName:
+class GenerateDict:
     answer = {}
 
     def __init__(self):
@@ -40,4 +39,4 @@ class ClassName:
             sys.exit()
 
 
-newEx = ClassName()
+newEx = GenerateDict()
