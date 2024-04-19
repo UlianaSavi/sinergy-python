@@ -60,10 +60,9 @@ class Invest:
         x = arr[0]  # invest min sum
         a = arr[1]  # first person's money
         b = arr[2]  # second person's money
-        if x > a and x > b and x >= (a + b):
+        if x > a and x > b and x > (a + b):
             return 0
         if x > a and x > b and x <= (a + b):
-            print(123)
             return 1
         if x < a and x < b:
             return 2
