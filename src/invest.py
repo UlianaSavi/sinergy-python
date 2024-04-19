@@ -64,11 +64,11 @@ class Invest:
             return 0
         if x > a and x > b and x <= (a + b):
             return 1
-        if x < a and x < b:
+        if x <= a and x <= b:
             return 2
-        if x < a and x > b:
+        if x <= a and x > b:
             return "Первый инвестор"
-        if x < b and x > a:
+        if x <= b and x > a:
             return "Второй инвестор"
         return 0
 
