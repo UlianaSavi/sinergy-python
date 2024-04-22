@@ -63,7 +63,7 @@ class VetClinic:
             sys.exit()
 
     def create(self, newPet={}):
-        last = collections.deque(self.pets, maxlen=1)[0]  # число последнего ключа
+        last = collections.deque(self.pets, maxlen=1)[0]  # последний ключ
         self.pets[last + 1] = newPet
 
     def read(self, name=""):
@@ -74,13 +74,15 @@ class VetClinic:
             )
         )
 
-    def update(self, name, petValue):
+    def update(self, name, petValue):  # TODO
+        arr = self.petsList()
         self.pets.update({name: petValue})
 
-    def delete(self, id=""):
-        self.pets.pop(id)
+    def delete(self, name=""):  # TODO
+        arr = self.petsList()
+        arr.pop(id)
 
-    def get_pet(self, id=""):
+    def getPet(self, id=""):  # TODO
         return self.pets[id] if id in self.pets.keys() else False
 
     def getAgeSuffix(self, age=0):
@@ -108,6 +110,9 @@ class VetClinic:
         if bool(age) and bool(breed) and bool(name) and bool(ownerName):
             pet[name] = dict(age=age, breed=breed, ownerName=ownerName)
         return pet
+
+    def petsList(self):
+        return list(self.pets.values())
 
 
 newEx = VetClinic()
