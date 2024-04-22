@@ -70,33 +70,43 @@ class VetClinic:
         )
 
     def read(self, name=""):
-        res = "null"
-        arr = self.petsList()
-        for i in arr:
-            if name == list(i.keys())[0]:
-                res = list(i.values())[0]
-        if res == "null":
+        petInArr = self.getPet(name)
+        if petInArr:
+            res = petInArr
             print(
-                "Питомца с такой кличкой нет в нашей клинике. Проверьте правильность написания клички питомца."
+                "Это {} по кличке {}. Возраст питомца: {}. Имя владельца: {}".format(
+                    res["breed"], name, self.getAgeSuffix(res["age"]), res["ownerName"]
+                )
             )
-            print("Вы ввели: {}".format(name))
-            return
-        print(
-            "Это {} по кличке {}. Возраст питомца: {}. Имя владельца: {}".format(
-                res["breed"], name, self.getAgeSuffix(res["age"]), res["ownerName"]
+        else:
+            print(
+                "\033[33mПитомца с такой кличкой нет в нашей клинике. Проверьте правильность написания клички питомца."
             )
-        )
+            print("\033[33mВы ввели: {}".format(name))
 
-    def update(self, name, petValue):  # TODO
-        arr = self.petsList()
-        self.pets.update({name: petValue})
+    def update(self, name, petValue):
+        petInArr = self.getPet(name)
+        if petInArr:
+            self.pets.update(
+                {name: petValue}
+            )  # TODO тут нужно получить idшник для обновления типа 1, 2 и тд
+        else:
+            print(
+                "\033[33mПитомца с такой кличкой нет в нашей клинике. Проверьте правильность написания клички питомца."
+            )
+            print("\033[33mВы ввели: {}".format(name))
 
     def delete(self, name=""):  # TODO
         arr = self.petsList()
         arr.pop(id)
 
-    def getPet(self, id=""):  # TODO
-        return self.pets[id] if id in self.pets.keys() else False
+    def getPet(self, name=""):
+        arr = self.petsList()
+        res = False
+        for i in arr:
+            if name == list(i.keys())[0]:
+                res = list(i.values())[0]
+        return res
 
     def getAgeSuffix(self, age=0):
         ageTypes = ["год", "года", "лет"]
