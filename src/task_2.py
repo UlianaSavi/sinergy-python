@@ -16,6 +16,9 @@ class countDivisor:
     def ask(self):
         try:
             x = int(input("\n\033[32mВведите натуральное число X: "))
+            if x == 1:
+                self.answer = 1
+                return
             for i in range(2, int(x / 2) + 1):
                 if x % i == 0:
                     self.answer += 1
