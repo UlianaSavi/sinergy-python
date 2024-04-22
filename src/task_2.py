@@ -4,14 +4,14 @@ import collections
 
 class VetClinic:
     pets = {
-        1: {
+        "+71111111111": {
             "Кики": {
                 "breed": "Собака",
                 "age": 4,
                 "ownerName": "Зоя",
             },
         },
-        2: {
+        "+79999999999": {
             "Каа": {
                 "breed": "желторотый питон",
                 "age": 19,
@@ -30,32 +30,51 @@ class VetClinic:
         try:
             commands = ["create", "read", "update", "delete", "stop"]
             command = commands[0]
-            while command != commands[4]:  # stop
+            while command != commands[4]:
                 inputRes = input(
                     "\033[35mВведите одну из команд для взаимодействия с базой - create, read, update, delete: "
                 )
                 command = inputRes
                 if command == commands[0]:
-                    data = self.inputDataForNewItem()
-                    self.create(data)
+                    number = input(
+                        "\033[35mВведите ваш номер телефона. Проверим нет ли вас в нашей базе:  "
+                    )
+                    petInArr = self.getPet(number)
+                    if petInArr:
+                        print(
+                            "\033[33mПитомец зарегистрированный под этим номером уже есть. Пожалуйста, введите новую иформацию."
+                        )
+                        print("\033[33mВы ввели: {}".format(number))
+                    else:
+                        data = self.inputDataForNewItem()
+                        self.create(data)
                 if command == commands[1]:
-                    name = input(
-                        "\033[35mВведите кличку питомца для получения информации: "
+                    number = input(
+                        "\033[35mВведите ваш номер телефона для получения информации: "
                     )
-                    self.read(name)
+                    self.read(number)
                 if command == commands[2]:
-                    name = input(
-                        "\033[35mВведите кличку питомца для обновления информации: "
+                    number = input(
+                        "\033[35mВведите ваш номер телефона для обновления информации: "
                     )
-                    self.update(name, self.inputDataForNewItem(name))
+                    petInArr = self.getPet(number)
+                    if petInArr:
+                        self.update(number, self.inputDataForNewItem(number))
+                    else:
+                        print(
+                            "\033[33mПитомца записанного под таким номером не найдено. Проверьте правильность написания номера."
+                        )
+                        print("\033[33mВы ввели: {}".format(number))
                 if command == commands[3]:
-                    name = input(
-                        "\033[35mВведите кличку питомца для удаления информации о нем: "
+                    number = input(
+                        "\033[35mВведите ваш номер телефона для удаления информации о питомце: "
                     )
-                    self.delete(name)
-        except ValueError:
-            print("\n\033[33mВы ввели неверное значение, попробуйте снова!\n")
-            self.ask()
+                    self.delete(number)
+            if command == commands[4]:
+                raise KeyboardInterrupt("")
+        # except ValueError:
+        #     print("\n\033[33mВы ввели неверное значение, попробуйте снова!\n")
+        #     self.ask()
         except KeyboardInterrupt:
             print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
             sys.exit()
@@ -69,43 +88,37 @@ class VetClinic:
             )
         )
 
-    def read(self, name=""):
-        petInArr = self.getPet(name)
-        if petInArr:
-            res = petInArr
+    def read(self, number=""):
+        pet = self.getPet(number)
+        if pet:
+            petVal = list(self.getPet(number).values())[0]
+            petName = list(self.getPet(number).keys())[0]
             print(
                 "Это {} по кличке {}. Возраст питомца: {}. Имя владельца: {}".format(
-                    res["breed"], name, self.getAgeSuffix(res["age"]), res["ownerName"]
+                    petVal["breed"],
+                    petName,
+                    self.getAgeSuffix(petVal["age"]),
+                    petVal["ownerName"],
                 )
             )
         else:
             print(
-                "\033[33mПитомца с такой кличкой нет в нашей клинике. Проверьте правильность написания клички питомца."
+                "\033[33mПитомца записанного под таким номером не найдено. Проверьте правильность написания номера."
             )
-            print("\033[33mВы ввели: {}".format(name))
+            print("\033[33mВы ввели: {}".format(number))
 
-    def update(self, name, petValue):
-        petInArr = self.getPet(name)
-        if petInArr:
-            self.pets.update(
-                {name: petValue}
-            )  # TODO тут нужно получить idшник для обновления типа 1, 2 и тд
-        else:
-            print(
-                "\033[33mПитомца с такой кличкой нет в нашей клинике. Проверьте правильность написания клички питомца."
-            )
-            print("\033[33mВы ввели: {}".format(name))
+    def update(self, name, petValue):  # TODO
+        print(123)
 
-    def delete(self, name=""):  # TODO
-        arr = self.petsList()
-        arr.pop(id)
+    def delete(self, number=""):  # TODO
+        arr = self.petsValuesList()
+        arr.pop(number)
 
-    def getPet(self, name=""):
-        arr = self.petsList()
+    def getPet(self, number=""):
         res = False
-        for i in arr:
-            if name == list(i.keys())[0]:
-                res = list(i.values())[0]
+        if number in self.pets.keys():
+            id = list(self.pets.keys()).index(number)
+            res = list(self.pets.values())[id]
         return res
 
     def getAgeSuffix(self, age=0):
@@ -144,7 +157,7 @@ class VetClinic:
             pet[name] = dict(age=age, breed=breed, ownerName=ownerName)
         return pet
 
-    def petsList(self):
+    def petsValuesList(self):
         return list(self.pets.values())
 
 
