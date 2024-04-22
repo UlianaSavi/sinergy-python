@@ -1,17 +1,17 @@
 import sys
-import collections
+import re
 
 
 class VetClinic:
     pets = {
-        "+71111111111": {
+        "+79242345678": {
             "Кики": {
                 "breed": "Собака",
                 "age": 4,
                 "ownerName": "Зоя",
             },
         },
-        "+79999999999": {
+        "+78567894567": {
             "Каа": {
                 "breed": "желторотый питон",
                 "age": 19,
@@ -32,47 +32,51 @@ class VetClinic:
             command = commands[0]
             while command != commands[4]:
                 number = input(
-                    "\033[35mВведите ваш номер телефона для идентификации: "
+                    "\033[35mВведите ваш номер телефона для идентификации: (номер должен быть из РФ) "
                 ).strip()
-                registered = self.getPet(number)
-                ownerName = (
-                    list(self.getPet(number).values())[0]["ownerName"]
-                    if registered
-                    else "неизвестный"
-                )
-                print("Привет {}!".format(ownerName))
-                if registered:
-                    inputRes = input(
-                        "\033[35mВведите одну из команд для взаимодействия с базой - create, read, update, delete: "
-                    ).strip()
-                else:
-                    print(
-                        "Введите одну из команд для взаимодействия с базой - create, read, update, delete:"
+                isRuNumber = self.validNumber(number)
+                if isRuNumber:
+                    registered = self.getPet(number)
+                    ownerName = (
+                        list(self.getPet(number).values())[0]["ownerName"]
+                        if registered
+                        else "неизвестный"
                     )
-                    inputRes = input(
-                        "\033[35mТак как вы не зарегистрированы в нашей базе данных, вам доступен только один метод - create. Введите его для продолжения: "
-                    ).strip()
-                command = inputRes
-                if command == commands[0]:
-                    newNumber = input(
-                        "\033[35mВведите новый номер телефона для создания записи (запомните этот номер - по нему вы будете идентифицироваться): "
-                    ).strip()
-                    check = self.getPet(newNumber)
-                    if check:
-                        print(
-                            "\033[33mПитомец зарегистрированный под этим номером уже есть. Пожалуйста, введите новую иформацию."
-                        )
-                        print("\033[33mВы ввели: {}".format(number))
+                    print("Привет {}!".format(ownerName))
+                    if registered:
+                        inputRes = input(
+                            "\033[35mВведите одну из команд для взаимодействия с базой - create, read, update, delete: "
+                        ).strip()
                     else:
-                        data = self.inputDataForNewItem()
-                        self.create(newNumber, data)
-                if registered:
-                    if command == commands[1]:
-                        self.read(number)
-                    if command == commands[2]:
-                        self.update(number, self.inputDataForNewItem())
-                    if command == commands[3]:
-                        self.delete(number)
+                        print(
+                            "Введите одну из команд для взаимодействия с базой - create, read, update, delete:"
+                        )
+                        inputRes = input(
+                            "\033[35mТак как вы не зарегистрированы в нашей базе данных, вам доступен только один метод - create. Введите его для продолжения: "
+                        ).strip()
+                    command = inputRes
+                    if command == commands[0]:
+                        newNumber = input(
+                            "\033[35mВведите новый номер телефона для создания записи (запомните этот номер - по нему вы будете идентифицироваться): "
+                        ).strip()
+                        check = self.getPet(newNumber)
+                        if check:
+                            print(
+                                "\033[33mПитомец зарегистрированный под этим номером уже есть. Пожалуйста, введите новую иформацию."
+                            )
+                            print("\033[33mВы ввели: {}".format(newNumber))
+                        else:
+                            data = self.inputDataForNewItem()
+                            self.create(newNumber, data)
+                    if registered:
+                        if command == commands[1]:
+                            self.read(number)
+                        if command == commands[2]:
+                            self.update(number, self.inputDataForNewItem())
+                        if command == commands[3]:
+                            self.delete(number)
+                else:
+                    raise ValueError("")
             if command == commands[4]:
                 raise KeyboardInterrupt("")
         except ValueError:
@@ -150,18 +154,26 @@ class VetClinic:
     def inputDataForNewItem(self):
         pet = {}
         name = input("\033[35mКакая кличка у вашего питомца? Ваш ответ: ")
-        if name:
-            breed = input("\033[35mКакой вид и порода у вашего питомца? Ваш ответ: ")
-        if breed:
-            age = int(input("\033[35mКакой возраст у вашего питомца? Ваш ответ: "))
-        if age:
-            ownerName = input("\033[35mКак вас зовут? Ваш ответ: ")
+        breed = input("\033[35mКакой вид и порода у вашего питомца? Ваш ответ: ")
+        age = int(input("\033[35mКакой возраст у вашего питомца? Ваш ответ: "))
+        ownerName = input("\033[35mКак вас зовут? Ваш ответ: ")
+
         if bool(age) and bool(breed) and bool(name) and bool(ownerName):
             pet[name] = dict(age=age, breed=breed, ownerName=ownerName)
-        return pet
+            return pet
+        else:
+            print("\033[33mВы ввели данные в неверном формате, попробуйте снова!")
+            return self.inputDataForNewItem()
 
     def petsValuesList(self):
         return list(self.pets.values())
+
+    def validNumber(self, number):
+        pattern = re.compile(
+            "^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$",
+            re.IGNORECASE,
+        )
+        return pattern.match(number) is not None
 
 
 newEx = VetClinic()
