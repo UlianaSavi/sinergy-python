@@ -31,45 +31,48 @@ class VetClinic:
             commands = ["create", "read", "update", "delete", "stop"]
             command = commands[0]
             while command != commands[4]:
-                inputRes = input(
-                    "\033[35mВведите одну из команд для взаимодействия с базой - create, read, update, delete: "
+                number = input(
+                    "\033[35mВведите ваш номер телефона для идентификации: "
+                ).strip()
+                registered = self.getPet(number)
+                ownerName = (
+                    list(self.getPet(number).values())[0]["ownerName"]
+                    if registered
+                    else "неизвестный"
                 )
+                print("Привет {}!".format(ownerName))
+                if registered:
+                    inputRes = input(
+                        "\033[35mВведите одну из команд для взаимодействия с базой - create, read, update, delete: "
+                    ).strip()
+                else:
+                    print(
+                        "Введите одну из команд для взаимодействия с базой - create, read, update, delete:"
+                    )
+                    inputRes = input(
+                        "\033[35mТак как вы не зарегистрированы в нашей базе данных, вам доступен только один метод - create. Введите его для продолжения: "
+                    ).strip()
                 command = inputRes
                 if command == commands[0]:
-                    number = input(
-                        "\033[35mВведите ваш номер телефона. Проверим нет ли вас в нашей базе:  "
-                    )
-                    petInArr = self.getPet(number)
-                    if petInArr:
+                    newNumber = input(
+                        "\033[35mВведите новый номер телефона для создания записи (запомните этот номер - по нему вы будете идентифицироваться): "
+                    ).strip()
+                    check = self.getPet(newNumber)
+                    if check:
                         print(
                             "\033[33mПитомец зарегистрированный под этим номером уже есть. Пожалуйста, введите новую иформацию."
                         )
                         print("\033[33mВы ввели: {}".format(number))
                     else:
                         data = self.inputDataForNewItem()
-                        self.create(number, data)
-                if command == commands[1]:
-                    number = input(
-                        "\033[35mВведите ваш номер телефона для получения информации: "
-                    )
-                    self.read(number)
-                if command == commands[2]:
-                    number = input(
-                        "\033[35mВведите ваш номер телефона для обновления информации: "
-                    )
-                    petInArr = self.getPet(number)
-                    if petInArr:
+                        self.create(newNumber, data)
+                if registered:
+                    if command == commands[1]:
+                        self.read(number)
+                    if command == commands[2]:
                         self.update(number, self.inputDataForNewItem())
-                    else:
-                        print(
-                            "\033[33mПитомца записанного под таким номером не найдено. Проверьте правильность написания номера."
-                        )
-                        print("\033[33mВы ввели: {}".format(number))
-                if command == commands[3]:
-                    number = input(
-                        "\033[35mВведите ваш номер телефона для удаления информации о питомце: "
-                    )
-                    self.delete(number)
+                    if command == commands[3]:
+                        self.delete(number)
             if command == commands[4]:
                 raise KeyboardInterrupt("")
         except ValueError:
@@ -83,11 +86,8 @@ class VetClinic:
         # last = collections.deque(self.pets, maxlen=1)[0]  # последний ключ
         # self.pets[last + 1] = newPet # по тз выглядело бы так
         self.pets[number] = newPet  # решение по id как number
-        print(
-            "\033[32mНовый элемент в базу данных добавлен благополучно: \n{}".format(
-                self.pets
-            )
-        )
+        print("\033[32mНовый питомец благополучно добавлен!")
+        print(self.pets)
 
     def read(self, number=""):
         pet = self.getPet(number)
@@ -108,13 +108,15 @@ class VetClinic:
             )
             print("\033[33mВы ввели: {}".format(number))
 
-    def update(self, id, newValue={}):  # TODO
+    def update(self, id, newValue={}):
         self.pets[id] = newValue
         print("\033[32mИнформация успешно обновлена!")
+        print(self.pets)
 
-    def delete(self, number=""):  # TODO
-        arr = self.petsValuesList()
-        arr.pop(number)
+    def delete(self, number=""):
+        self.pets.pop(number)
+        print("\033[32mИнформация успешно удалена!")
+        print(self.pets)
 
     def getPet(self, number=""):
         res = False
