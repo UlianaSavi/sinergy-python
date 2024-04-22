@@ -7,7 +7,7 @@ class VetClinic:
         1: {
             "Кики": {
                 "breed": "Собака",
-                "age": 9,
+                "age": 4,
                 "ownerName": "Зоя",
             },
         },
@@ -22,51 +22,59 @@ class VetClinic:
 
     def __init__(self):
         print("\033[32mПривет!\n")
-        self.getAgeSuffix(28)
-        self.getAgeSuffix(21)
-        self.getAgeSuffix(13)
-        self.getAgeSuffix(4)
-        # self.ask()
-        # print("\033[32mСпасибо за использование скрипта! Досвидания!\n")
+        self.ask()
+        print("\033[32mСпасибо за использование скрипта! Досвидания!\n")
         sys.exit()
 
     def ask(self):
-        commands = ["create", "read", "update", "delete", "stop"]
-        command = commands[0]
-        while command != commands[4]:  # stop
-            inputRes = input(
-                "\033[35mВведите одну из команд для взаимодействия с базой - create, read, update, delete: "
-            )
-            command = inputRes
-            if command == commands[0]:
-                self.create(self.inputDataForNewItem())
-            if command == commands[1]:
-                name = input(
-                    "\033[35mВведите кличку питомца для получения информации: "
+        try:
+            commands = ["create", "read", "update", "delete", "stop"]
+            command = commands[0]
+            while command != commands[4]:  # stop
+                inputRes = input(
+                    "\033[35mВведите одну из команд для взаимодействия с базой - create, read, update, delete: "
                 )
-                self.read(name)
-            if command == commands[2]:
-                name = input(
-                    "\033[35mВведите кличку питомца для обновления информации: "
-                )
-                self.update(name, self.inputDataForNewItem(name))
-            if command == commands[3]:
-                name = input(
-                    "\033[35mВведите кличку питомца для удаления информации о нем: "
-                )
-                self.delete(name)
+                command = inputRes
+                if command == commands[0]:
+                    self.create(self.inputDataForNewItem())
+                if command == commands[1]:
+                    name = input(
+                        "\033[35mВведите кличку питомца для получения информации: "
+                    )
+                    self.read(name)
+                if command == commands[2]:
+                    name = input(
+                        "\033[35mВведите кличку питомца для обновления информации: "
+                    )
+                    self.update(name, self.inputDataForNewItem(name))
+                if command == commands[3]:
+                    name = input(
+                        "\033[35mВведите кличку питомца для удаления информации о нем: "
+                    )
+                    self.delete(name)
+        except ValueError:
+            print("\n\033[33mВы ввели неверное значение, попробуйте снова!\n")
+            self.ask()
+        except KeyboardInterrupt:
+            print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
+            sys.exit()
 
     def create(self, newPet={}):
         last = collections.deque(self.pets, maxlen=1)[0]  # последний ключ
         self.pets[last + 1] = newPet
 
     def read(self, name=""):
-        arr = list(self.pets.values())
-        res = ""
-        print(arr)
+        res = "null"
+        arr = self.petsList()
         for i in arr:
             if name == list(i.keys())[0]:
                 res = list(i.values())[0]
+        if res == "null":
+            print(
+                "Питомца с такой кличкой нет в нашей клинике. Проверьте правильность написания клички питомца."
+            )
+            print("Вы ввели: {}".format(name))
+            return
         print(
             "Это {} по кличке {}. Возраст питомца: {}. Имя владельца: {}".format(
                 res["breed"], name, self.getAgeSuffix(res["age"]), res["ownerName"]
@@ -104,7 +112,6 @@ class VetClinic:
                 currAgeType = ageTypes[1]
             if age >= 5 and age <= 20:
                 currAgeType = ageTypes[2]
-        print(str(age) + " " + currAgeType)
         return str(age) + " " + currAgeType
 
     def inputDataForNewItem(name=False):
