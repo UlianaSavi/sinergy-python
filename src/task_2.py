@@ -36,7 +36,8 @@ class VetClinic:
                 )
                 command = inputRes
                 if command == commands[0]:
-                    self.create(self.inputDataForNewItem())
+                    data = self.inputDataForNewItem()
+                    self.create(data)
                 if command == commands[1]:
                     name = input(
                         "\033[35mВведите кличку питомца для получения информации: "
@@ -62,6 +63,11 @@ class VetClinic:
     def create(self, newPet={}):
         last = collections.deque(self.pets, maxlen=1)[0]  # последний ключ
         self.pets[last + 1] = newPet
+        print(
+            "\033[32mНовый элемент в словарь добавлен благополучно: \n{}".format(
+                self.pets
+            )
+        )
 
     def read(self, name=""):
         res = "null"
@@ -114,7 +120,7 @@ class VetClinic:
                 currAgeType = ageTypes[2]
         return str(age) + " " + currAgeType
 
-    def inputDataForNewItem(name=False):
+    def inputDataForNewItem(self, name=False):
         pet = {}
         if name == False:
             name = input("\033[35mКакая кличка у вашего питомца? Ваш ответ: ")
