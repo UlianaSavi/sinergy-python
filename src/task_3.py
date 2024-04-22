@@ -23,10 +23,12 @@ class countDivisor:
             )
             if a >= b:
                 raise ValueError("ValueError")
-            for i in range(a, b, 2):
+            for i in range(a, b + 1, 2):
                 evenNum = i % 2 + i
-                if evenNum != b:
+                if evenNum != b and evenNum <= b:
                     self.answer.append(str(evenNum))
+            if b % 2 == 0:
+                self.answer.append(str(b))
         except KeyboardInterrupt:
             print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
             sys.exit()
