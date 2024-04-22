@@ -47,7 +47,7 @@ class VetClinic:
                         print("\033[33mВы ввели: {}".format(number))
                     else:
                         data = self.inputDataForNewItem()
-                        self.create(data)
+                        self.create(number, data)
                 if command == commands[1]:
                     number = input(
                         "\033[35mВведите ваш номер телефона для получения информации: "
@@ -59,7 +59,7 @@ class VetClinic:
                     )
                     petInArr = self.getPet(number)
                     if petInArr:
-                        self.update(number, self.inputDataForNewItem(number))
+                        self.update(number, self.inputDataForNewItem())
                     else:
                         print(
                             "\033[33mПитомца записанного под таким номером не найдено. Проверьте правильность написания номера."
@@ -72,18 +72,19 @@ class VetClinic:
                     self.delete(number)
             if command == commands[4]:
                 raise KeyboardInterrupt("")
-        # except ValueError:
-        #     print("\n\033[33mВы ввели неверное значение, попробуйте снова!\n")
-        #     self.ask()
+        except ValueError:
+            print("\n\033[33mВы ввели неверное значение, попробуйте снова!\n")
+            self.ask()
         except KeyboardInterrupt:
             print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
             sys.exit()
 
-    def create(self, newPet={}):
-        last = collections.deque(self.pets, maxlen=1)[0]  # последний ключ
-        self.pets[last + 1] = newPet
+    def create(self, number, newPet={}):
+        # last = collections.deque(self.pets, maxlen=1)[0]  # последний ключ
+        # self.pets[last + 1] = newPet # по тз выглядело бы так
+        self.pets[number] = newPet  # решение по id как number
         print(
-            "\033[32mНовый элемент в словарь добавлен благополучно: \n{}".format(
+            "\033[32mНовый элемент в базу данных добавлен благополучно: \n{}".format(
                 self.pets
             )
         )
@@ -107,8 +108,9 @@ class VetClinic:
             )
             print("\033[33mВы ввели: {}".format(number))
 
-    def update(self, name, petValue):  # TODO
-        print(123)
+    def update(self, id, newValue={}):  # TODO
+        self.pets[id] = newValue
+        print("\033[32mИнформация успешно обновлена!")
 
     def delete(self, number=""):  # TODO
         arr = self.petsValuesList()
@@ -143,10 +145,9 @@ class VetClinic:
                 currAgeType = ageTypes[2]
         return str(age) + " " + currAgeType
 
-    def inputDataForNewItem(self, name=False):
+    def inputDataForNewItem(self):
         pet = {}
-        if name == False:
-            name = input("\033[35mКакая кличка у вашего питомца? Ваш ответ: ")
+        name = input("\033[35mКакая кличка у вашего питомца? Ваш ответ: ")
         if name:
             breed = input("\033[35mКакой вид и порода у вашего питомца? Ваш ответ: ")
         if breed:
