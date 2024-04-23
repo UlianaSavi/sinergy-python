@@ -7,8 +7,6 @@ class ClassName:
     def __init__(self):
         print("\033[32mПривет!\n")
         self.ask()
-        for key in self.answer:
-            print("\036 {}: {}".format(key, self.answer[key]))
         print("\033[32mСпасибо за использование скрипта! Досвидания!\n")
         sys.exit()
 
@@ -22,13 +20,13 @@ class ClassName:
                     ).split(),
                 )
             )
-            res = []
             for item in arr:
-                if item not in res:
-                    res.append(item)
+                repeatNum = arr.count(item)
+                if repeatNum == 1:
+                    print("{} --> NO".format(item))
                     self.answer[item] = "NO"
                 else:
-                    self.answer[item] = "YES"
+                    print("{} --> YES".format(item))
         except ValueError:
             print("\n\033[33mВы ввели неверное значение, попробуйте снова!\n")
             self.ask()
