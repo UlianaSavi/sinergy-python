@@ -30,7 +30,22 @@ class getBoads:
                 if weightItem <= 0 or weightItem > maxMass:
                     raise ValueError
                 weights.append(weightItem)
-            self.answer = math.ceil(sum(weights) / maxMass)
+            if sum(weights) <= maxMass:
+                self.answer = math.ceil(len(weights) / 2)
+            else:
+                boads = {}
+                ii = 0
+                for item in weights:
+                    if not ii in boads:
+                        boads[ii] = []
+
+                    if len(boads[ii]) == 2:
+                        ii += 1
+                        boads[ii] = []
+
+                    boads[ii].append(item)
+
+                self.answer = math.ceil(len(list(boads.keys())))
         except ValueError:
             print(
                 "\n\033[33mВы ввели неверные значения (1 ≤ вес ≤ m), попробуйте снова!\n"
