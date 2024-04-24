@@ -11,37 +11,51 @@ class GenerateMatrix:
         self.matrixB = []
         print("\033[32mПривет!\n")
         self.ask()
-        print("\n\033[32mРезультат: {}".format(self.matrixSum))
+        print("\n\033[32mРезультат сложения матриц A и B: {}".format(self.matrixSum))
         print("\033[32mСпасибо за использование скрипта! Досвидания!\n")
         sys.exit()
 
     def ask(self):
-        try:
-            print("\033[32mГенерирую первую матрицу...\n")
+        # try:
+        columnSize = int(input("\033[35mВведите размер матриц по колонкам: "))
+        rowSize = int(input("\033[35mВведите размер матриц по строкам:  "))
+        if bool(columnSize) and bool(rowSize):
+            self.matrixA = self.generateMatrix(columnSize, rowSize)
+            self.matrixB = self.generateMatrix(columnSize, rowSize)
+        else:
             self.matrixA = self.generateMatrix()
-            print("\033[32mРезультат: {}".format(self.matrixA))
-            print("\033[32mГенерирую вторую матрицу...\n")
             self.matrixB = self.generateMatrix()
-            print("\033[32mРезультат: {}".format(self.matrixB))
-            print("\033[32mВыполняю сложение двух матриц...\n")
-            self.matrixSum = self.getMatrixSum(self, self.matrixA, self.matrixB)
-        except ValueError:
-            print("\n\033[33mВы ввели неверное значение, попробуйте снова!\n")
-            self.ask()
-        except KeyboardInterrupt:
-            print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
-            sys.exit()
-        except:
-            print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
-            sys.exit()
+        print("\033[32mГенерирую первую матрицу...")
+        print("\033[32mРезультат: {}\n".format(self.matrixA))
+        print("\033[32mГенерирую вторую матрицу...")
+        print("\033[32mРезультат: {}\n".format(self.matrixB))
+        print("\033[32mВыполняю сложение двух матриц...")
 
-    def generateMatrix(self, size=defaultMatrixSize):
+        self.getMatrixSum(self.matrixA, self.matrixB)
+
+    # except ValueError:
+    #     print("\n\033[33mВы ввели неверное значение, попробуйте снова!\n")
+    #     self.ask()
+    # except KeyboardInterrupt:
+    #     print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
+    #     sys.exit()
+    # except:
+    #     print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
+    #     sys.exit()
+
+    def generateMatrix(self, columnSize=defaultMatrixSize, rowSize=defaultMatrixSize):
         return [
-            [random.randint(0, size) for column in range(size)] for row in range(size)
+            [random.randint(0, rowSize) for column in range(rowSize)]
+            for row in range(columnSize)
         ]
 
     def getMatrixSum(self, matrixA, matrixB):
-        return []
+        result = [
+            [matrixA[i][j] + matrixB[i][j] for j in range(len(matrixA[0]))]
+            for i in range(len(matrixA))
+        ]
+        for r in result:
+            self.matrixSum.append(r)
 
 
 newEx = GenerateMatrix()
