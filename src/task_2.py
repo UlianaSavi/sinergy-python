@@ -1,29 +1,20 @@
-import sys
+class Transport:
+
+    def __init__(self, name, maxSpeed, mileage):
+
+        self.name = name
+        self.maxSpeed = maxSpeed
+        self.mileage = mileage
+
+    def seatingCapacity(self, capacity):
+        return f"Вместимость одного автобуса {self.name}: {capacity} пассажиров"
 
 
-class ClassName:
-    answer = ""
-
-    def __init__(self):
-        print("\033[32mПривет!\n")
-        self.ask()
-        print("\n\033[32mРезультат: {}".format(self.answer))
-        print("\033[32mСпасибо за использование скрипта! Досвидания!\n")
-        sys.exit()
-
-    def ask(self):
-        try:
-            inputRes = input("\033[35mВопрос ")
-            self.answer = inputRes
-        except ValueError:
-            print("\n\033[33mВы ввели неверное значение, попробуйте снова!\n")
-            self.ask()
-        except KeyboardInterrupt:
-            print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
-            sys.exit()
-        except:
-            print("\n\033[33mВы вышли из скрипта. Досвидания!\n")
-            sys.exit()
+class Autobus(Transport):
+    def seatingCapacity(self, capacity=50):
+        return super().seatingCapacity(capacity)
 
 
-newEx = ClassName()
+test = Autobus("Renaul Logan", 180, 12)
+str = test.seatingCapacity()
+print(str)
