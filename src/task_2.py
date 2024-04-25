@@ -41,4 +41,3 @@ newEx = Turtle()
 
 newEx.countMoves(4, 4)
 newEx.countMoves(2, 10)
-newEx.countMoves(2.3, 10)
