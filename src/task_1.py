@@ -7,13 +7,7 @@ class Transport:
         self.mileage = mileage
 
 
-class Autobus(Transport):
-    def displayParentInfo(self):
-        print(
-            "Название автомобиля: {} Скорость: {} Пробег: {}".format(
-                self.name, self.maxSpeed, self.mileage
-            )
-        )
-
-
-n = Autobus("Renaul Logan ", 180, 12).displayParentInfo()
+Autobus = Transport("Renaul Logan", 180, 12)
+print(
+    f"Название автомобиля: {Autobus.name} Скорость: {Autobus.maxSpeed} Пробег: {Autobus.mileage}"
+)
